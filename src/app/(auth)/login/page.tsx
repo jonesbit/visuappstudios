@@ -7,6 +7,8 @@ import 'aos/dist/aos.css';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
+// MUDANÇA AQUI: Importamos do arquivo que acabamos de arrumar
+import { createSessionAction } from '@/app/actions/server-action-login'; 
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -32,24 +34,30 @@ export default function Login() {
 
         if (view === 'login') {
             try {
+                // 1. Login no Firebase
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
+                // 2. Buscar Cargo no Firestore
                 const userDocRef = doc(db, 'users', user.uid);
                 const userDoc = await getDoc(userDocRef);
 
+                let role = 'user';
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
-                    const role = userData.role;
+                    role = userData.role || 'user';
+                }
 
-                    if (role === 'admin') {
-                        window.location.href = 'https://portal.visuapp.com.br/admin';
-                    } else {
-                        window.location.href = 'https://portal.visuapp.com.br/dashboard';
-                    }
+                // 3. CRIAR COOKIE DE SESSÃO (Isso corrige o loop)
+                await createSessionAction(user.uid, role);
+
+                // 4. Redirecionar
+                if (role === 'admin') {
+                    window.location.href = 'https://portal.visuapp.com.br/admin';
                 } else {
                     window.location.href = 'https://portal.visuapp.com.br/dashboard';
                 }
+                
             } catch (err: any) {
                 console.error(err);
                 if (err.code === 'auth/invalid-credential') {
@@ -60,6 +68,7 @@ export default function Login() {
                 setLoading(false);
             }
         } else {
+            // Lógica de Reset de Senha
             if (!email) {
                 setError('Digite seu email para redefinir a senha.');
                 setLoading(false);
