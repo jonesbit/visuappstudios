@@ -29,7 +29,6 @@ export default function PortalClient() {
                 return;
             }
             setUser(currentUser);
-            // Pequeno delay artificial para evitar "piscar" muito rápido o loading se a net for ultra rápida, opcional.
             setTimeout(() => setLoading(false), 500);
         });
 
@@ -39,17 +38,18 @@ export default function PortalClient() {
     useEffect(() => {
         if (!user || !user.metadata?.lastSignInTime) return;
 
-        const loginTime = new Date(user.metadata.lastSignInTime).getTime();
+        // CORREÇÃO DO BUG "TRAVADO EM 60:00":
+        // Se o horário do servidor (lastSignInTime) for maior que o horário atual do pc do usuário (Date.now),
+        // usamos o Date.now() para garantir que o timer comece a contar imediatamente de 60:00 para baixo.
+        const serverLoginTime = new Date(user.metadata.lastSignInTime).getTime();
+        const loginTime = Math.min(serverLoginTime, Date.now()); 
+        
         const sessionDuration = 60 * 60 * 1000; // 1 hora
         const expirationTime = loginTime + sessionDuration;
 
         const timer = setInterval(async () => {
             const now = Date.now();
-            // CORREÇÃO: Math.min garante que a distância nunca seja maior que 1h (evita o bug "61m")
-            let distance = expirationTime - now;
-            
-            // Se o relógio do cliente estiver atrasado, o distance pode ser maior que 1h. Travamos em 1h.
-            if (distance > sessionDuration) distance = sessionDuration;
+            const distance = expirationTime - now;
 
             if (distance <= 0) {
                 clearInterval(timer);
@@ -80,7 +80,6 @@ export default function PortalClient() {
         }
     };
 
-    // --- LOADING CUSTOMIZADO ---
     if (loading) return (
         <div className="min-h-screen bg-visu-black flex flex-col items-center justify-center relative overflow-hidden">
              <div className="absolute inset-0 bg-visu-primary/5 animate-pulse"></div>

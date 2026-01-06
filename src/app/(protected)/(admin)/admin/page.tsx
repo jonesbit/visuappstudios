@@ -45,22 +45,22 @@ export default function PortalAdmin() {
     useEffect(() => {
         if (!user || !user.metadata?.lastSignInTime) return;
 
-        const loginTime = new Date(user.metadata.lastSignInTime).getTime();
+        // CORREÇÃO DO BUG RELÓGIO:
+        // Usa o tempo atual como base caso o tempo do servidor esteja no futuro relativo
+        const serverLoginTime = new Date(user.metadata.lastSignInTime).getTime();
+        const loginTime = Math.min(serverLoginTime, Date.now());
+        
         const sessionDuration = 60 * 60 * 1000; 
         const expirationTime = loginTime + sessionDuration;
 
         const timer = setInterval(async () => {
             const now = Date.now();
-            
-            // CORREÇÃO: Math.min garante que a distância nunca seja maior que 1h
-            let distance = expirationTime - now;
-            if (distance > sessionDuration) distance = sessionDuration;
+            const distance = expirationTime - now;
 
             if (distance <= 0) {
                 clearInterval(timer);
                 setTimeLeft('00:00');
                 await signOut(auth);
-                // URL corrigida (era 'porta.')
                 window.location.href = 'https://portal.visuapp.com.br/login'; 
             } else {
                 const minutes = Math.floor(distance / (1000 * 60));
@@ -86,7 +86,6 @@ export default function PortalAdmin() {
         }
     };
 
-    // --- LOADING CUSTOMIZADO ADMIN ---
     if (loading) return (
         <div className="min-h-screen bg-visu-black flex flex-col items-center justify-center relative overflow-hidden">
              <div className="absolute inset-0 bg-visu-primary/5 animate-pulse"></div>
