@@ -1,0 +1,32 @@
+.plansContainer {
+    position: relative;
+    overflow: hidden;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+
+.glowBlob1 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 500px;
+    height: 500px;
+    background-color: rgba(79, 70, 229, 0.1); 
+    border-radius: 9999px;
+    filter: blur(120px);
+    transform: translate(50%, -50%);
+    pointer-events: none;
+}
+
+.glowBlob2 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 500px;
+    height: 500px;
+    background-color: rgba(219, 39, 119, 0.1); 
+    border-radius: 9999px;
+    filter: blur(120px);
+    transform: translate(-50%, 50%);
+    pointer-events: none;
+}

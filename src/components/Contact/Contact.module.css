@@ -1,0 +1,25 @@
+.blobPrimary {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background-color: #4f46e5;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.3;
+    transform: translate(33%, -33%);
+}
+
+.blobAccent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    background-color: #db2777;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.2;
+    transform: translate(-33%, 33%);
+}

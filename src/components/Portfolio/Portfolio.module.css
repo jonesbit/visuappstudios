@@ -1,0 +1,7 @@
+.portfolioCard:hover .portfolioOverlay {
+    opacity: 1;
+}
+
+.portfolioCard:hover img {
+    transform: scale(1.1) rotate(2deg);
+}
