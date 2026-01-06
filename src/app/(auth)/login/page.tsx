@@ -43,12 +43,12 @@ export default function Login() {
                     const role = userData.role;
 
                     if (role === 'admin') {
-                        window.location.href = 'https://admin.visuapp.com.br';
+                        window.location.href = 'https://portal.visuapp.com.br/admin';
                     } else {
-                        window.location.href = 'https://portal.visuapp.com.br';
+                        window.location.href = 'https://portal.visuapp.com.br/dashboard';
                     }
                 } else {
-                    window.location.href = 'https://portal.visuapp.com.br';
+                    window.location.href = 'https://portal.visuapp.com.br/dashboard';
                 }
             } catch (err: any) {
                 console.error(err);
@@ -121,7 +121,7 @@ export default function Login() {
             </div>
 
             <div className="absolute top-4 left-4 md:top-8 md:left-8 z-50">
-                <Link href="/" className="flex items-center gap-2 text-white/60 hover:text-white transition-colors group bg-visu-black/50 backdrop-blur-md px-4 py-2 rounded-full md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none border border-white/10 md:border-none">
+                <Link href="https://visuapp.com.br" className="flex items-center gap-2 text-white/60 hover:text-white transition-colors group bg-visu-black/50 backdrop-blur-md px-4 py-2 rounded-full md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none border border-white/10 md:border-none">
                     <i className="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                     <span className="text-xs md:text-sm font-medium">Voltar ao site</span>
                 </Link>
