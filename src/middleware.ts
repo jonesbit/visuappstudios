@@ -4,7 +4,12 @@ import { getSession } from './lib/session'
 
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
+  const host = req.headers.get('host')
   const session = await getSession()
+
+  if (host?.startsWith('portal') && path === '/') {
+    return NextResponse.redirect(new URL('/login', req.url))
+  }
 
   if (!session && (path.startsWith('/admin') || path.startsWith('/dashboard'))) {
     return NextResponse.redirect(new URL('/login', req.url))
@@ -18,5 +23,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/dashboard/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }
