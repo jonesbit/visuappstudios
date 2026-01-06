@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/login",
+        has: [
+          {
+            type: "host",
+            value: "visuapp.com.br",
+          },
+        ],
         destination: "https://portal.visuapp.com.br/login",
         permanent: true,
       },
