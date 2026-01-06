@@ -7,8 +7,13 @@ export async function middleware(req: NextRequest) {
   const host = req.headers.get('host')
   const session = await getSession()
 
-  if (host === 'visuapp.com.br' && path === '/login') {
-    return NextResponse.redirect(new URL('https://portal.visuapp.com.br/login'))
+  if (path === '/login') {
+    const isPortal = host?.startsWith('portal')
+    const isLocalhost = host?.includes('localhost')
+
+    if (!isPortal && !isLocalhost) {
+       return NextResponse.redirect(new URL('https://portal.visuapp.com.br/login'))
+    }
   }
 
   if (host?.startsWith('portal') && path === '/') {

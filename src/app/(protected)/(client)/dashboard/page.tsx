@@ -28,7 +28,7 @@ export default function PortalClient() {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (!currentUser) {
                 // Redireciona para o login no domínio principal
-                window.location.href = 'https://visuapp.com.br/login';
+                window.location.href = 'https://portal.visuapp.com.br/login';
                 return;
             }
 
@@ -55,7 +55,7 @@ export default function PortalClient() {
                 setTimeLeft('00:00');
                 await signOut(auth);
                 // EXPULSA O USUÁRIO PARA O LOGIN PRINCIPAL
-                window.location.href = 'https://visuapp.com.br/login';
+                window.location.href = 'https://portal.visuapp.com.br/login';
             } else {
                 // Cálculo corrigido
                 const minutes = Math.floor(distance / (1000 * 60));
@@ -69,7 +69,7 @@ export default function PortalClient() {
 
     const handleLogout = async () => {
         await signOut(auth);
-        window.location.href = 'https://visuapp.com.br/login';
+        window.location.href = 'https://portal.visuapp.com.br/login';
     };
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);

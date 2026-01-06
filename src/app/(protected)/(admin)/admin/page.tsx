@@ -63,7 +63,7 @@ export default function PortalAdmin() {
                 setTimeLeft('00:00');
                 await signOut(auth);
                 // EXPULSA O USUÁRIO PARA O LOGIN PRINCIPAL
-                window.location.href = 'https://porta.visuapp.com.br/login'; 
+                window.location.href = 'https://portal.visuapp.com.br/login'; 
             } else {
                 // Cálculo corrigido: Minutos totais, sem resto de divisão por hora
                 const minutes = Math.floor(distance / (1000 * 60));
@@ -77,7 +77,7 @@ export default function PortalAdmin() {
 
     const handleLogout = async () => {
         await signOut(auth);
-        window.location.href = 'https://porta.visuapp.com.br/login';
+        window.location.href = 'https://portal.visuapp.com.br/login';
     };
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
