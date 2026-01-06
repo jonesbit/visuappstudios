@@ -28,7 +28,7 @@ export default function PortalAdmin() {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (!currentUser) {
                 // Redireciona para o login no domínio principal
-                window.location.href = 'https://visuapp.com.br/login';
+                window.location.href = 'https://portal.visuapp.com.br/login';
                 return;
             }
 
@@ -63,7 +63,7 @@ export default function PortalAdmin() {
                 setTimeLeft('00:00');
                 await signOut(auth);
                 // EXPULSA O USUÁRIO PARA O LOGIN PRINCIPAL
-                window.location.href = 'https://visuapp.com.br/login'; 
+                window.location.href = 'https://porta.visuapp.com.br/login'; 
             } else {
                 // Cálculo corrigido: Minutos totais, sem resto de divisão por hora
                 const minutes = Math.floor(distance / (1000 * 60));
@@ -77,7 +77,7 @@ export default function PortalAdmin() {
 
     const handleLogout = async () => {
         await signOut(auth);
-        window.location.href = 'https://visuapp.com.br/login';
+        window.location.href = 'https://porta.visuapp.com.br/login';
     };
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -132,7 +132,7 @@ export default function PortalAdmin() {
                 <nav className="flex-1 py-6 space-y-1 overflow-y-auto custom-scroll">
                     
                     <div className="px-6 mb-6">
-                        <a href="https://studio.visuapp.com" target="_blank" className="btn-studio group block w-full text-white rounded-xl p-4 shadow-lg hover:shadow-indigo-500/50 transition-all hover:-translate-y-1 relative overflow-hidden">
+                        <a href="https://studio.visuapp.com.br" target="_blank" className="btn-studio group block w-full text-white rounded-xl p-4 shadow-lg hover:shadow-indigo-500/50 transition-all hover:-translate-y-1 relative overflow-hidden">
                             <div className="relative z-10 flex items-center justify-between">
                                 <div>
                                     <p className="font-bold text-sm">VisuLab Studio</p>
