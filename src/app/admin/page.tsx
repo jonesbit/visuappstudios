@@ -6,7 +6,6 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 
-// Mapeamento de títulos para o header
 const sectionTitles: Record<string, string> = {
     'overview': 'Visão Geral',
     'clientes': 'Gestão de Clientes',
@@ -22,6 +21,7 @@ export default function PortalAdmin() {
     const [user, setUser] = useState<any>(null);
     const [activeSection, setActiveSection] = useState('overview');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [timeLeft, setTimeLeft] = useState('');
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -30,19 +30,43 @@ export default function PortalAdmin() {
                 return;
             }
 
-            // Verifica se é ADMIN de verdade
             const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
             if (userDoc.exists() && userDoc.data().role === 'admin') {
                 setUser(currentUser);
                 setLoading(false);
             } else {
-                // Se não for admin, manda pro portal de cliente
                 router.push('/portal');
             }
         });
 
         return () => unsubscribe();
     }, [router]);
+
+    useEffect(() => {
+        if (!user || !user.metadata?.lastSignInTime) return;
+
+        const loginTime = new Date(user.metadata.lastSignInTime).getTime();
+        const sessionDuration = 60 * 60 * 1000; 
+        const expirationTime = loginTime + sessionDuration;
+
+        const timer = setInterval(async () => {
+            const now = Date.now();
+            const distance = expirationTime - now;
+
+            if (distance <= 0) {
+                clearInterval(timer);
+                setTimeLeft('00:00');
+                await signOut(auth);
+                window.location.href = '/login'; 
+            } else {
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+            }
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [user, router]);
 
     const handleLogout = async () => {
         await signOut(auth);
@@ -62,7 +86,6 @@ export default function PortalAdmin() {
 
     return (
         <div className="text-visu-black antialiased flex h-[100dvh] overflow-hidden text-sm relative bg-[#f8fafc]">
-            {/* Importando FontAwesome e Fonte */}
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
             <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
@@ -178,6 +201,13 @@ export default function PortalAdmin() {
                     </div>
 
                     <div className="flex items-center gap-3 md:gap-4">
+                        {timeLeft && (
+                            <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-red-50/50 border border-red-100 rounded-full text-red-600 shadow-sm transition-all hover:bg-red-50 hover:shadow-md cursor-help" title="Tempo restante da sessão">
+                                <i className="fas fa-clock text-xs animate-pulse"></i>
+                                <span className="text-xs font-bold tracking-wide font-mono pt-0.5">Sessão: {timeLeft}</span>
+                            </div>
+                        )}
+
                         <div className="relative hidden md:block">
                             <input type="text" placeholder="Buscar projeto, cliente..." className="bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-4 py-1.5 text-xs focus:outline-none focus:border-visu-primary w-64 transition-all" />
                             <i className="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
@@ -196,7 +226,6 @@ export default function PortalAdmin() {
                 <main className="flex-1 overflow-y-auto p-4 md:p-8 pb-24 custom-scroll scroll-smooth w-full">
                     <div className="max-w-7xl mx-auto">
                         
-                        {/* SEÇÃO: VISÃO GERAL */}
                         {activeSection === 'overview' && (
                             <div className="fade-in space-y-6 md:space-y-8">
                                 
@@ -306,7 +335,6 @@ export default function PortalAdmin() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: CLIENTES */}
                         {activeSection === 'clientes' && (
                             <div className="fade-in space-y-6">
                                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
@@ -373,7 +401,6 @@ export default function PortalAdmin() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: VENCIMENTOS */}
                         {activeSection === 'vencimentos' && (
                             <div className="fade-in space-y-6">
                                 <div>
@@ -423,7 +450,6 @@ export default function PortalAdmin() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: CHAMADOS */}
                         {activeSection === 'chamados' && (
                             <div className="fade-in space-y-6">
                                 <div>
@@ -474,7 +500,6 @@ export default function PortalAdmin() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: DEPOIMENTOS */}
                         {activeSection === 'depoimentos' && (
                             <div className="fade-in space-y-6">
                                 <div>
@@ -517,7 +542,6 @@ export default function PortalAdmin() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: FINANCEIRO */}
                         {activeSection === 'financeiro' && (
                             <div className="fade-in space-y-6">
                                 <div>

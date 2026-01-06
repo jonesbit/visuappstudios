@@ -7,7 +7,6 @@ import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import Image from 'next/image';
 
-// Mapeamento de títulos para o header
 const sectionTitles: Record<string, string> = {
     'overview': 'Visão Geral',
     'servicos': 'Meus Serviços',
@@ -23,8 +22,8 @@ export default function PortalClient() {
     const [user, setUser] = useState<any>(null);
     const [activeSection, setActiveSection] = useState('overview');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [timeLeft, setTimeLeft] = useState('');
 
-    // Verifica autenticação
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (!currentUser) {
@@ -32,15 +31,38 @@ export default function PortalClient() {
                 return;
             }
 
-            // Opcional: Verificar se é realmente um cliente no banco
-            // Para simplificar e garantir funcionamento, permitimos acesso se logado
-            // Se quiser bloquear admins aqui, podemos adicionar a lógica
             setUser(currentUser);
             setLoading(false);
         });
 
         return () => unsubscribe();
     }, [router]);
+
+    useEffect(() => {
+        if (!user || !user.metadata?.lastSignInTime) return;
+
+        const loginTime = new Date(user.metadata.lastSignInTime).getTime();
+        const sessionDuration = 60 * 60 * 1000;
+        const expirationTime = loginTime + sessionDuration;
+
+        const timer = setInterval(async () => {
+            const now = Date.now();
+            const distance = expirationTime - now;
+
+            if (distance <= 0) {
+                clearInterval(timer);
+                setTimeLeft('00:00');
+                await signOut(auth);
+                window.location.href = '/login';
+            } else {
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+            }
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [user, router]);
 
     const handleLogout = async () => {
         await signOut(auth);
@@ -60,7 +82,6 @@ export default function PortalClient() {
 
     return (
         <div className="text-visu-black antialiased flex h-[100dvh] overflow-hidden text-sm relative bg-[#f8fafc]">
-            {/* Importando FontAwesome via CDN para garantir os ícones */}
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
             <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
@@ -76,13 +97,11 @@ export default function PortalClient() {
                 .sidebar-overlay { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); }
             `}</style>
 
-            {/* Mobile Overlay */}
             <div 
                 onClick={toggleSidebar} 
                 className={`fixed inset-0 z-30 sidebar-overlay md:hidden transition-opacity duration-300 ${isSidebarOpen ? 'block' : 'hidden'}`}
             ></div>
 
-            {/* Sidebar */}
             <aside className={`w-72 bg-visu-black text-gray-400 flex flex-col flex-shrink-0 h-full shadow-2xl z-40 fixed md:relative transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
                 <div className="h-16 flex items-center justify-between px-6 border-b border-gray-800 bg-visu-dark">
                     <div className="flex items-center gap-3">
@@ -146,7 +165,6 @@ export default function PortalClient() {
                 </div>
             </aside>
 
-            {/* Main Content */}
             <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-gray-50">
                 
                 <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-8 shadow-sm z-20 sticky top-0">
@@ -163,6 +181,13 @@ export default function PortalClient() {
                     </div>
 
                     <div className="flex items-center gap-4">
+                        {timeLeft && (
+                             <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-red-50/50 border border-red-100 rounded-full text-red-600 shadow-sm transition-all hover:bg-red-50 hover:shadow-md cursor-help" title="Tempo restante da sessão">
+                                <i className="fas fa-clock text-xs animate-pulse"></i>
+                                <span className="text-xs font-bold tracking-wide font-mono pt-0.5">Sessão: {timeLeft}</span>
+                            </div>
+                        )}
+
                         <div className="md:hidden flex items-center gap-1 px-2 py-0.5 bg-red-50 border border-red-100 rounded text-red-700 text-[10px] font-bold uppercase">
                             <i className="fas fa-lock"></i>
                         </div>
@@ -176,7 +201,6 @@ export default function PortalClient() {
                 <main className="flex-1 overflow-y-auto p-4 md:p-8 pb-24 custom-scroll scroll-smooth w-full">
                     <div className="max-w-7xl mx-auto">
                         
-                        {/* SEÇÃO: VISÃO GERAL */}
                         {activeSection === 'overview' && (
                             <div className="fade-in space-y-6 md:space-y-8">
                                 <div>
@@ -234,7 +258,6 @@ export default function PortalClient() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: SERVIÇOS */}
                         {activeSection === 'servicos' && (
                             <div className="fade-in space-y-6">
                                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
@@ -312,7 +335,6 @@ export default function PortalClient() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: ASSINATURAS */}
                         {activeSection === 'assinaturas' && (
                             <div className="fade-in space-y-6">
                                 <div>
@@ -340,7 +362,6 @@ export default function PortalClient() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: FINANCEIRO */}
                         {activeSection === 'financeiro' && (
                             <div className="fade-in space-y-6">
                                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
@@ -400,7 +421,6 @@ export default function PortalClient() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: DEPOIMENTOS */}
                         {activeSection === 'depoimentos' && (
                             <div className="fade-in space-y-6">
                                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
@@ -463,7 +483,6 @@ export default function PortalClient() {
                             </div>
                         )}
 
-                        {/* SEÇÃO: CONFIGURAÇÕES */}
                         {activeSection === 'configuracoes' && (
                             <div className="fade-in space-y-6">
                                 <div>

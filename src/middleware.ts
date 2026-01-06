@@ -5,7 +5,15 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const hostname = request.headers.get('host') || '';
 
-  const currentHost = hostname.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, '');
+  // Permite que a página de login e arquivos estáticos sejam acessados de qualquer lugar sem reescrita
+  if (
+    url.pathname.startsWith('/login') || 
+    url.pathname.startsWith('/assets') || 
+    url.pathname.startsWith('/_next') || 
+    url.pathname.includes('favicon.ico')
+  ) {
+    return NextResponse.next();
+  }
 
   if (hostname === 'admin.visuapp.com.br' || (hostname.includes('admin.') && hostname.includes('localhost'))) {
     url.pathname = `/admin${url.pathname}`;
