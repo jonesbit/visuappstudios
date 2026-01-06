@@ -27,7 +27,8 @@ export default function PortalClient() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (!currentUser) {
-                router.push('/login');
+                // Redireciona para o login no domínio principal
+                window.location.href = 'https://visuapp.com.br/login';
                 return;
             }
 
@@ -36,7 +37,7 @@ export default function PortalClient() {
         });
 
         return () => unsubscribe();
-    }, [router]);
+    }, []);
 
     useEffect(() => {
         if (!user || !user.metadata?.lastSignInTime) return;
@@ -53,20 +54,22 @@ export default function PortalClient() {
                 clearInterval(timer);
                 setTimeLeft('00:00');
                 await signOut(auth);
-                window.location.href = '/login';
+                // EXPULSA O USUÁRIO PARA O LOGIN PRINCIPAL
+                window.location.href = 'https://visuapp.com.br/login';
             } else {
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                // Cálculo corrigido
+                const minutes = Math.floor(distance / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
             }
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [user, router]);
+    }, [user]);
 
     const handleLogout = async () => {
         await signOut(auth);
-        router.push('/login');
+        window.location.href = 'https://visuapp.com.br/login';
     };
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -182,9 +185,10 @@ export default function PortalClient() {
 
                     <div className="flex items-center gap-4">
                         {timeLeft && (
-                             <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-red-50/50 border border-red-100 rounded-full text-red-600 shadow-sm transition-all hover:bg-red-50 hover:shadow-md cursor-help" title="Tempo restante da sessão">
-                                <i className="fas fa-clock text-xs animate-pulse"></i>
-                                <span className="text-xs font-bold tracking-wide font-mono pt-0.5">Sessão: {timeLeft}</span>
+                            <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-red-50 border border-red-100 rounded-lg shadow-sm">
+                                <span className="text-[10px] font-bold uppercase text-red-500 tracking-wider">Sessão:</span>
+                                <span className="text-sm font-bold font-mono text-red-600">{timeLeft}</span>
+                                <i className="fas fa-clock text-xs text-red-400 animate-pulse"></i>
                             </div>
                         )}
 

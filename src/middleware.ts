@@ -5,9 +5,14 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const hostname = request.headers.get('host') || '';
 
-  // Permite que a página de login e arquivos estáticos sejam acessados de qualquer lugar sem reescrita
   if (
-    url.pathname.startsWith('/login') || 
+    url.pathname.startsWith('/login') && 
+    (hostname.includes('admin.') || hostname.includes('portal.'))
+  ) {
+    return NextResponse.redirect('https://visuapp.com.br/login');
+  }
+
+  if (
     url.pathname.startsWith('/assets') || 
     url.pathname.startsWith('/_next') || 
     url.pathname.includes('favicon.ico')
