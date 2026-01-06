@@ -1,40 +1,22 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { getSession } from './lib/session'
 
-export function middleware(request: NextRequest) {
-  const url = request.nextUrl;
-  const hostname = request.headers.get('host') || '';
+export async function middleware(req: NextRequest) {
+  const path = req.nextUrl.pathname
+  const session = await getSession()
 
-  if (
-    url.pathname.startsWith('/login') && 
-    (hostname.includes('admin.') || hostname.includes('portal.'))
-  ) {
-    return NextResponse.redirect('https://visuapp.com.br/login');
+  if (!session && (path.startsWith('/admin') || path.startsWith('/dashboard'))) {
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 
-  if (
-    url.pathname.startsWith('/assets') || 
-    url.pathname.startsWith('/_next') || 
-    url.pathname.includes('favicon.ico')
-  ) {
-    return NextResponse.next();
+  if (session?.role !== 'admin' && path.startsWith('/admin')) {
+    return NextResponse.redirect(new URL('/dashboard', req.url))
   }
 
-  if (hostname === 'admin.visuapp.com.br' || (hostname.includes('admin.') && hostname.includes('localhost'))) {
-    url.pathname = `/admin${url.pathname}`;
-    return NextResponse.rewrite(url);
-  }
-
-  if (hostname === 'portal.visuapp.com.br' || (hostname.includes('portal.') && hostname.includes('localhost'))) {
-    url.pathname = `/portal${url.pathname}`;
-    return NextResponse.rewrite(url);
-  }
-
-  return NextResponse.next();
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
-};
+  matcher: ['/admin/:path*', '/dashboard/:path*'],
+}
