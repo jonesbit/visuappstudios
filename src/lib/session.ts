@@ -18,10 +18,15 @@ export async function createSession(userId: string) {
     expires: expires,
     sameSite: 'lax',
     path: '/',
+    domain: '.visuapp.com.br' 
   })
 }
 
 export async function deleteSession() {
   const cookieStore = await cookies()
-  cookieStore.delete('session')
+  cookieStore.delete({
+    name: 'session',
+    domain: '.visuapp.com.br',
+    path: '/'
+  })
 }

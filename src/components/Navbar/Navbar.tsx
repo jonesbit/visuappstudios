@@ -29,18 +29,15 @@ export default function Navbar() {
                 
                 <div className="hidden md:flex items-center gap-8">
                     <div className="flex items-center gap-8">
-                        {/* Links atualizados com "/" na frente para funcionarem de qualquer página */}
                         <Link href="/#servicos" className="text-sm font-medium text-gray-500 hover:text-visu-primary transition-colors">Serviços</Link>
                         <Link href="/#planos" className="text-sm font-medium text-gray-500 hover:text-visu-primary transition-colors">Planos</Link>
-                        
-                        {/* Link apontando para a página dedicada de portfolio */}
                         <Link href="/portfolio" className="text-sm font-medium text-gray-500 hover:text-visu-primary transition-colors">Portfólio</Link>
-                        
                         <Link href="/#contato" className="text-sm font-medium text-gray-500 hover:text-visu-primary transition-colors">Contato</Link>
                         <Link href="/#faq" className="text-sm font-medium text-gray-500 hover:text-visu-primary transition-colors">FAQ</Link>
                     </div>
 
-                    <Link href="/login" className="bg-visu-black text-white px-6 py-3 rounded-xl font-medium text-sm hover:bg-visu-primary transition-colors duration-300 flex items-center gap-2 group">
+                    {/* CORREÇÃO AQUI: Link absoluto para o portal */}
+                    <Link href="https://portal.visuapp.com.br/login" className="bg-visu-black text-white px-6 py-3 rounded-xl font-medium text-sm hover:bg-visu-primary transition-colors duration-300 flex items-center gap-2 group">
                         <i className="fas fa-user-circle text-lg opacity-70 group-hover:opacity-100 transition-opacity"></i>
                         <span>Área do Cliente</span>
                     </Link>
@@ -53,13 +50,13 @@ export default function Navbar() {
 
             <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-2xl animate-fade-in-down origin-top`}>
                 <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
-                    {/* Links Mobile atualizados */}
                     <Link href="/#servicos" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-bold text-gray-600 hover:text-visu-primary py-3 border-b border-gray-50">Serviços</Link>
                     <Link href="/#planos" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-bold text-gray-600 hover:text-visu-primary py-3 border-b border-gray-50">Planos</Link>
                     <Link href="/portfolio" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-bold text-gray-600 hover:text-visu-primary py-3 border-b border-gray-50">Portfólio</Link>
                     <Link href="/#contato" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-bold text-gray-600 hover:text-visu-primary py-3 mb-2">Contato</Link>
                     
-                    <Link href="/login" className="bg-visu-black text-white px-6 py-4 rounded-xl font-bold text-sm text-center hover:bg-visu-primary transition-colors duration-300 flex items-center justify-center gap-2 w-full shadow-lg shadow-indigo-500/20">
+                    {/* CORREÇÃO AQUI: Link absoluto para o portal no Mobile também */}
+                    <Link href="https://portal.visuapp.com.br/login" className="bg-visu-black text-white px-6 py-4 rounded-xl font-bold text-sm text-center hover:bg-visu-primary transition-colors duration-300 flex items-center justify-center gap-2 w-full shadow-lg shadow-indigo-500/20">
                         <i className="fas fa-user-circle text-lg"></i>
                         <span>Área do Cliente</span>
                     </Link>
