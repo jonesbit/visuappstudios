@@ -23,11 +23,9 @@ export default function PortalAdmin() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState('');
 
-    // Efeito para verificar login inicial
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (!currentUser) {
-                // Redireciona para o login no domínio principal
                 window.location.href = 'https://portal.visuapp.com.br/login';
                 return;
             }
@@ -35,37 +33,36 @@ export default function PortalAdmin() {
             const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
             if (userDoc.exists() && userDoc.data().role === 'admin') {
                 setUser(currentUser);
-                setLoading(false);
+                setTimeout(() => setLoading(false), 500);
             } else {
-                // Se não for admin, manda para o portal (também via subdomínio correto)
                 window.location.href = 'https://portal.visuapp.com.br';
             }
         });
 
         return () => unsubscribe();
-    }, []); // Array vazio para rodar apenas uma vez
+    }, []);
 
-    // Efeito do Timer (Contador)
     useEffect(() => {
         if (!user || !user.metadata?.lastSignInTime) return;
 
-        // Pega a hora do login e soma 1 hora (3600000 ms)
         const loginTime = new Date(user.metadata.lastSignInTime).getTime();
         const sessionDuration = 60 * 60 * 1000; 
         const expirationTime = loginTime + sessionDuration;
 
         const timer = setInterval(async () => {
             const now = Date.now();
-            const distance = expirationTime - now;
+            
+            // CORREÇÃO: Math.min garante que a distância nunca seja maior que 1h
+            let distance = expirationTime - now;
+            if (distance > sessionDuration) distance = sessionDuration;
 
             if (distance <= 0) {
                 clearInterval(timer);
                 setTimeLeft('00:00');
                 await signOut(auth);
-                // EXPULSA O USUÁRIO PARA O LOGIN PRINCIPAL
+                // URL corrigida (era 'porta.')
                 window.location.href = 'https://portal.visuapp.com.br/login'; 
             } else {
-                // Cálculo corrigido: Minutos totais, sem resto de divisão por hora
                 const minutes = Math.floor(distance / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
@@ -89,7 +86,22 @@ export default function PortalAdmin() {
         }
     };
 
-    if (loading) return <div className="min-h-screen bg-visu-black flex items-center justify-center text-white">Carregando...</div>;
+    // --- LOADING CUSTOMIZADO ADMIN ---
+    if (loading) return (
+        <div className="min-h-screen bg-visu-black flex flex-col items-center justify-center relative overflow-hidden">
+             <div className="absolute inset-0 bg-visu-primary/5 animate-pulse"></div>
+             <div className="relative z-10 flex flex-col items-center">
+                <div className="w-16 h-16 relative mb-4">
+                    <div className="absolute inset-0 border-4 border-gray-800 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-t-purple-600 rounded-full animate-spin"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                         <i className="fas fa-shield-alt text-2xl text-purple-600 opacity-80"></i>
+                    </div>
+                </div>
+                <p className="text-white font-bold tracking-widest text-xs uppercase animate-pulse">Acesso Administrativo</p>
+             </div>
+        </div>
+    );
 
     return (
         <div className="text-visu-black antialiased flex h-[100dvh] overflow-hidden text-sm relative bg-[#f8fafc]">

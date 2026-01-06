@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
-import Image from 'next/image';
+import { auth } from '@/lib/firebase';
 
 const sectionTitles: Record<string, string> = {
     'overview': 'Visão Geral',
@@ -27,13 +25,12 @@ export default function PortalClient() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (!currentUser) {
-                // Redireciona para o login no domínio principal
                 window.location.href = 'https://portal.visuapp.com.br/login';
                 return;
             }
-
             setUser(currentUser);
-            setLoading(false);
+            // Pequeno delay artificial para evitar "piscar" muito rápido o loading se a net for ultra rápida, opcional.
+            setTimeout(() => setLoading(false), 500);
         });
 
         return () => unsubscribe();
@@ -43,21 +40,23 @@ export default function PortalClient() {
         if (!user || !user.metadata?.lastSignInTime) return;
 
         const loginTime = new Date(user.metadata.lastSignInTime).getTime();
-        const sessionDuration = 60 * 60 * 1000;
+        const sessionDuration = 60 * 60 * 1000; // 1 hora
         const expirationTime = loginTime + sessionDuration;
 
         const timer = setInterval(async () => {
             const now = Date.now();
-            const distance = expirationTime - now;
+            // CORREÇÃO: Math.min garante que a distância nunca seja maior que 1h (evita o bug "61m")
+            let distance = expirationTime - now;
+            
+            // Se o relógio do cliente estiver atrasado, o distance pode ser maior que 1h. Travamos em 1h.
+            if (distance > sessionDuration) distance = sessionDuration;
 
             if (distance <= 0) {
                 clearInterval(timer);
                 setTimeLeft('00:00');
                 await signOut(auth);
-                // EXPULSA O USUÁRIO PARA O LOGIN PRINCIPAL
                 window.location.href = 'https://portal.visuapp.com.br/login';
             } else {
-                // Cálculo corrigido
                 const minutes = Math.floor(distance / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
@@ -81,7 +80,22 @@ export default function PortalClient() {
         }
     };
 
-    if (loading) return <div className="min-h-screen bg-visu-black flex items-center justify-center text-white">Carregando...</div>;
+    // --- LOADING CUSTOMIZADO ---
+    if (loading) return (
+        <div className="min-h-screen bg-visu-black flex flex-col items-center justify-center relative overflow-hidden">
+             <div className="absolute inset-0 bg-visu-primary/5 animate-pulse"></div>
+             <div className="relative z-10 flex flex-col items-center">
+                <div className="w-16 h-16 relative mb-4">
+                    <div className="absolute inset-0 border-4 border-gray-800 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-t-visu-primary rounded-full animate-spin"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <img src="/assets/logo.png" alt="V" className="w-6 h-auto opacity-50" />
+                    </div>
+                </div>
+                <p className="text-white font-bold tracking-widest text-xs uppercase animate-pulse">Carregando Portal</p>
+             </div>
+        </div>
+    );
 
     return (
         <div className="text-visu-black antialiased flex h-[100dvh] overflow-hidden text-sm relative bg-[#f8fafc]">
