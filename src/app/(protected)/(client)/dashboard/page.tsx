@@ -35,38 +35,66 @@ export default function PortalClient() {
         return () => unsubscribe();
     }, []);
 
+    // --- LÓGICA DO TIMER INTELIGENTE ---
     useEffect(() => {
         if (!user || !user.metadata?.lastSignInTime) return;
 
-        // CORREÇÃO DO BUG "TRAVADO EM 60:00":
-        // Se o horário do servidor (lastSignInTime) for maior que o horário atual do pc do usuário (Date.now),
-        // usamos o Date.now() para garantir que o timer comece a contar imediatamente de 60:00 para baixo.
-        const serverLoginTime = new Date(user.metadata.lastSignInTime).getTime();
-        const loginTime = Math.min(serverLoginTime, Date.now()); 
-        
-        const sessionDuration = 60 * 60 * 1000; // 1 hora
-        const expirationTime = loginTime + sessionDuration;
+        const handleSessionTimer = () => {
+            const storageKey = `visu_session_${user.uid}`;
+            const serverLoginTime = new Date(user.metadata.lastSignInTime).getTime();
+            let expirationTime = 0;
 
-        const timer = setInterval(async () => {
-            const now = Date.now();
-            const distance = expirationTime - now;
-
-            if (distance <= 0) {
-                clearInterval(timer);
-                setTimeLeft('00:00');
-                await signOut(auth);
-                window.location.href = 'https://portal.visuapp.com.br/login';
-            } else {
-                const minutes = Math.floor(distance / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+            try {
+                const storedData = JSON.parse(localStorage.getItem(storageKey) || 'null');
+                
+                // Se existe um timer salvo e ele pertence a ESTA sessão de login (mesmo timestamp do firebase)
+                if (storedData && storedData.loginTime === serverLoginTime) {
+                    expirationTime = storedData.expirationTime;
+                } else {
+                    // Se é um login novo ou não tem nada salvo, define Agora + 1h
+                    expirationTime = Date.now() + (60 * 60 * 1000);
+                    localStorage.setItem(storageKey, JSON.stringify({
+                        loginTime: serverLoginTime,
+                        expirationTime: expirationTime
+                    }));
+                }
+            } catch (e) {
+                // Fallback em caso de erro no localStorage
+                expirationTime = Date.now() + (60 * 60 * 1000);
             }
-        }, 1000);
 
-        return () => clearInterval(timer);
+            const timer = setInterval(async () => {
+                const now = Date.now();
+                const distance = expirationTime - now;
+
+                if (distance <= 0) {
+                    clearInterval(timer);
+                    setTimeLeft('00:00');
+                    
+                    // Limpa o storage ao expirar
+                    localStorage.removeItem(storageKey);
+                    
+                    await signOut(auth);
+                    window.location.href = 'https://portal.visuapp.com.br/login';
+                } else {
+                    const minutes = Math.floor(distance / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    setTimeLeft(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+                }
+            }, 1000);
+
+            return () => clearInterval(timer);
+        };
+
+        const cleanup = handleSessionTimer();
+        return cleanup;
     }, [user]);
 
     const handleLogout = async () => {
+        // Limpa o storage ao sair manualmente
+        if (user?.uid) {
+            localStorage.removeItem(`visu_session_${user.uid}`);
+        }
         await signOut(auth);
         window.location.href = 'https://portal.visuapp.com.br/login';
     };

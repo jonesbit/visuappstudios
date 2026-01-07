@@ -7,7 +7,6 @@ import Link from 'next/link';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-// Interface do Projeto
 interface Project {
     id: number;
     title: string;
@@ -20,51 +19,39 @@ interface Project {
     client?: string;
 }
 
-// Dados dos Projetos - REMOVIDOS OS WEBSITES PARA FICAR "EM DESENVOLVIMENTO"
 const projects: Project[] = [
     {
         id: 3,
-        title: "Tech Solutions",
+        title: "Raquel Calbo",
         category: "landing",
-        image: "/assets/hero.png",
-        description: "Landing Page de alta conversão para SaaS.",
-        tags: ["Performance", "Copywriting"],
-        fullDescription: "Landing Page otimizada para campanhas de Google Ads. Tempo de carregamento inferior a 1s e estrutura persuasiva focada em vendas.",
-        year: "2024",
-        client: "Tech Soluções Digitais"
+        image: "/assets/raquelc.png",
+        description: "Lorem impsum.",
+        tags: ["Psicologia", "Landing Page"],
+        fullDescription: "Lorem impsum",
+        year: "2023",
+        client: "Raquel Lacerda Calbo"
     },
     {
         id: 4,
-        title: "Raquel Confeitaria",
-        category: "design",
-        image: "/assets/raquelc.png",
-        description: "Rebranding completo e materiais para redes sociais.",
-        tags: ["Social Media", "Logo"],
-        fullDescription: "Criação de nova identidade visual, mais moderna e apetitosa. Pacote completo de artes para Instagram e Facebook visando engajamento.",
-        year: "2023",
-        client: "Raquel Bolos"
+        title: "Padrinho Barber",
+        category: "landing",
+        image: "/assets/padrinhob.png",
+        description: "Lorem impsum.",
+        tags: ["Barbearia", "Landing Page"],
+        fullDescription: "Lorem impsum",
+        year: "2024",
+        client: "O Padrinho"
     },
     {
         id: 5,
-        title: "Padrinho Burger",
-        category: "design",
-        image: "/assets/padrinhob.png",
-        description: "Identidade visual e cardápio digital para hamburgueria.",
-        tags: ["Design Gráfico", "Menu"],
-        fullDescription: "Desenvolvimento de cardápio digital interativo e materiais impressos para as mesas. Fotografia e tratamento de imagens dos produtos.",
-        year: "2024",
-        client: "O Padrinho Burger"
-    },
-    {
-        id: 7,
-        title: "Davis Cortes",
-        category: "design",
+        title: "Davi Santiago",
+        category: "landing",
         image: "/assets/davis2.png",
-        description: "Estratégia visual para lançamento de curso online.",
-        tags: ["Lançamento", "Identity"],
-        fullDescription: "Identidade visual para lançamento de infoproduto. Landing page, criativos para tráfego e material de apoio para alunos.",
+        description: "Lorem impsum.",
+        tags: ["Psicologia", "Landing Page"],
+        fullDescription: "Lorem impsum",
         year: "2024",
-        client: "Davis Academy"
+        client: "Davis Armando Santiago Santos"
     }
 ];
 
@@ -80,7 +67,6 @@ export default function PortfolioPage() {
         });
     }, []);
 
-    // Bloquear scroll quando modal estiver aberto
     useEffect(() => {
         if (selectedProject) {
             document.body.style.overflow = 'hidden';

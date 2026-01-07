@@ -83,15 +83,15 @@ export default function Testimonials() {
                                     <div className="flex text-yellow-400 mb-4 text-sm">
                                         <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
                                     </div>
-                                    <p className="mb-6 italic font-medium">"O ROI foi instantâneo. A Visuapp não entregou apenas um site, entregou uma estratégia de conversão completa."</p>
+                                    <p className="mb-6 italic font-medium">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quibusdam est ex saepe nostrum beatae voluptas? Earum maiores quasi, laboriosam facilis libero ex vero in animi aliquid praesentium, inventore sapiente?"</p>
                                 </div>
                                 <div className="flex items-center gap-4 border-t border-gray-100/10 pt-6 mt-auto">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-visu-primary transition-colors duration-300">
                                         AS
                                     </div>
                                     <div>
-                                        <h4 className="client-name font-bold text-sm">Dra. Ana Silva</h4>
-                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Psicóloga</span>
+                                        <h4 className="client-name font-bold text-sm">Autor</h4>
+                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Profissão</span>
                                     </div>
                                 </div>
                             </div>
@@ -104,15 +104,15 @@ export default function Testimonials() {
                                     <div className="flex text-yellow-400 mb-4 text-sm">
                                         <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
                                     </div>
-                                    <p className="mb-6 italic font-medium">"A estética dark que criaram para minha barbearia elevou nossa percepção de valor. Incrível."</p>
+                                    <p className="mb-6 italic font-medium">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quibusdam est ex saepe nostrum beatae voluptas? Earum maiores quasi, laboriosam facilis libero ex vero in animi aliquid praesentium, inventore sapiente?"</p>
                                 </div>
                                 <div className="flex items-center gap-4 border-t border-gray-100/10 pt-6 mt-auto">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-visu-primary transition-colors duration-300">
                                         DS
                                     </div>
                                     <div>
-                                        <h4 className="client-name font-bold text-sm">Davi Santiago</h4>
-                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Barbearia Viking</span>
+                                        <h4 className="client-name font-bold text-sm">Autor</h4>
+                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Profissão</span>
                                     </div>
                                 </div>
                             </div>
@@ -125,15 +125,15 @@ export default function Testimonials() {
                                     <div className="flex text-yellow-400 mb-4 text-sm">
                                         <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
                                     </div>
-                                    <p className="mb-6 italic font-medium">"A integração do cardápio digital foi perfeita. Facilitou nossa operação e aumentou as vendas."</p>
+                                    <p className="mb-6 italic font-medium">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quibusdam est ex saepe nostrum beatae voluptas? Earum maiores quasi, laboriosam facilis libero ex vero in animi aliquid praesentium, inventore sapiente?"</p>
                                 </div>
                                 <div className="flex items-center gap-4 border-t border-gray-100/10 pt-6 mt-auto">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-visu-primary transition-colors duration-300">
                                         RC
                                     </div>
                                     <div>
-                                        <h4 className="client-name font-bold text-sm">Roberto Chef</h4>
-                                        <span className="client-role text-xs font-bold uppercase tracking-wide">La Trattoria</span>
+                                        <h4 className="client-name font-bold text-sm">Autor</h4>
+                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Profissão</span>
                                     </div>
                                 </div>
                             </div>
@@ -146,15 +146,15 @@ export default function Testimonials() {
                                     <div className="flex text-yellow-400 mb-4 text-sm">
                                         <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
                                     </div>
-                                    <p className="mb-6 italic font-medium">"Já tinha feito sites com outras agências, mas a atenção aos detalhes da Visuapp é outro nível."</p>
+                                    <p className="mb-6 italic font-medium">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quibusdam est ex saepe nostrum beatae voluptas? Earum maiores quasi, laboriosam facilis libero ex vero in animi aliquid praesentium, inventore sapiente?"</p>
                                 </div>
                                 <div className="flex items-center gap-4 border-t border-gray-100/10 pt-6 mt-auto">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-visu-primary transition-colors duration-300">
                                         MC
                                     </div>
                                     <div>
-                                        <h4 className="client-name font-bold text-sm">Mariana Costa</h4>
-                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Influenciadora</span>
+                                        <h4 className="client-name font-bold text-sm">Autor</h4>
+                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Profissão</span>
                                     </div>
                                 </div>
                             </div>
@@ -167,15 +167,15 @@ export default function Testimonials() {
                                     <div className="flex text-yellow-400 mb-4 text-sm">
                                         <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
                                     </div>
-                                    <p className="mb-6 italic font-medium">"A estética dark que criaram para minha barbearia elevou nossa percepção de valor. Incrível."</p>
+                                    <p className="mb-6 italic font-medium">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quibusdam est ex saepe nostrum beatae voluptas? Earum maiores quasi, laboriosam facilis libero ex vero in animi aliquid praesentium, inventore sapiente?"</p>
                                 </div>
                                 <div className="flex items-center gap-4 border-t border-gray-100/10 pt-6 mt-auto">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-visu-primary transition-colors duration-300">
                                         DS
                                     </div>
                                     <div>
-                                        <h4 className="client-name font-bold text-sm">Davi Santiago</h4>
-                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Barbearia Viking</span>
+                                        <h4 className="client-name font-bold text-sm">Autor</h4>
+                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Profissão</span>
                                     </div>
                                 </div>
                             </div>
@@ -188,15 +188,15 @@ export default function Testimonials() {
                                     <div className="flex text-yellow-400 mb-4 text-sm">
                                         <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
                                     </div>
-                                    <p className="mb-6 italic font-medium">"A integração do cardápio digital foi perfeita. Facilitou nossa operação e aumentou as vendas."</p>
+                                    <p className="mb-6 italic font-medium">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quibusdam est ex saepe nostrum beatae voluptas? Earum maiores quasi, laboriosam facilis libero ex vero in animi aliquid praesentium, inventore sapiente?"</p>
                                 </div>
                                 <div className="flex items-center gap-4 border-t border-gray-100/10 pt-6 mt-auto">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-visu-primary transition-colors duration-300">
                                         RC
                                     </div>
                                     <div>
-                                        <h4 className="client-name font-bold text-sm">Roberto Chef</h4>
-                                        <span className="client-role text-xs font-bold uppercase tracking-wide">La Trattoria</span>
+                                        <h4 className="client-name font-bold text-sm">Autor</h4>
+                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Profissão</span>
                                     </div>
                                 </div>
                             </div>
@@ -209,15 +209,15 @@ export default function Testimonials() {
                                     <div className="flex text-yellow-400 mb-4 text-sm">
                                         <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
                                     </div>
-                                    <p className="mb-6 italic font-medium">"Já tinha feito sites com outras agências, mas a atenção aos detalhes da Visuapp é outro nível."</p>
+                                    <p className="mb-6 italic font-medium">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quibusdam est ex saepe nostrum beatae voluptas? Earum maiores quasi, laboriosam facilis libero ex vero in animi aliquid praesentium, inventore sapiente?"</p>
                                 </div>
                                 <div className="flex items-center gap-4 border-t border-gray-100/10 pt-6 mt-auto">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-visu-primary transition-colors duration-300">
                                         MC
                                     </div>
                                     <div>
-                                        <h4 className="client-name font-bold text-sm">Mariana Costa</h4>
-                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Influenciadora</span>
+                                        <h4 className="client-name font-bold text-sm">Autor</h4>
+                                        <span className="client-role text-xs font-bold uppercase tracking-wide">Profissão</span>
                                     </div>
                                 </div>
                             </div>
