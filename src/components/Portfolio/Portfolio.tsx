@@ -22,7 +22,7 @@ export default function Portfolio() {
                                 <span className="inline-block px-3 py-1 mb-3 text-xs font-bold text-white uppercase tracking-wider rounded-full bg-visu-accent/90 shadow-sm">Psicólogo</span>
                                 
                                 <h4 className="text-white text-2xl font-bold mb-2">Psi. Davi Santiago</h4>
-                                <p className="text-gray-200 text-sm mb-4 leading-relaxed">Rebranding completo e plataforma de agendamento inteligente.</p>
+                                <p className="text-gray-200 text-sm mb-4 leading-relaxed">Lorem impsum.</p>
                                 <span className="inline-flex items-center gap-2 text-white text-sm font-bold group/link hover:text-visu-accent transition-colors">
                                     Ver Projeto <i className="fas fa-arrow-right group-hover/link:translate-x-1 transition-transform"></i>
                                 </span>
@@ -38,7 +38,7 @@ export default function Portfolio() {
                             <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-colors">
                                 <span className="inline-block px-3 py-1 mb-3 text-xs font-bold text-white uppercase tracking-wider rounded-full bg-visu-accent/90 shadow-sm">Psicóloga</span>
                                 <h4 className="text-white text-2xl font-bold mb-2">Psi. Raquel Calbo</h4>
-                                <p className="text-gray-200 text-sm mb-4 leading-relaxed">Experiência Dark Mode imersiva com clube de assinatura.</p>
+                                <p className="text-gray-200 text-sm mb-4 leading-relaxed">Lorem impsum.</p>
                                 <span className="inline-flex items-center gap-2 text-white text-sm font-bold group/link hover:text-visu-accent transition-colors">
                                     Ver Projeto <i className="fas fa-arrow-right group-hover/link:translate-x-1 transition-transform"></i>
                                 </span>
@@ -54,7 +54,7 @@ export default function Portfolio() {
                             <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-colors">
                                 <span className="inline-block px-3 py-1 mb-3 text-xs font-bold text-white uppercase tracking-wider rounded-full bg-visu-accent/90 shadow-sm">Barbearia</span>
                                 <h4 className="text-white text-2xl font-bold mb-2">Padrinho Barber</h4>
-                                <p className="text-gray-200 text-sm mb-4 leading-relaxed">Sistema de delivery próprio e cardápio interativo.</p>
+                                <p className="text-gray-200 text-sm mb-4 leading-relaxed">Lorem impsum.</p>
                                 <span className="inline-flex items-center gap-2 text-white text-sm font-bold group/link hover:text-visu-accent transition-colors">
                                     Ver Projeto <i className="fas fa-arrow-right group-hover/link:translate-x-1 transition-transform"></i>
                                 </span>
