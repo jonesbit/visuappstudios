@@ -4,22 +4,29 @@ import type { NextRequest } from 'next/server'
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
   const host = req.headers.get('host')
+  const protocol = req.nextUrl.protocol 
+
   const sessionCookie = req.cookies.get('session')?.value
-  
   let session = null
   if (sessionCookie) {
     try { session = JSON.parse(sessionCookie) } catch {}
   }
 
-  const isStudio = host?.startsWith('studio')
+  const isDev = host?.includes('localhost') || host?.includes('.local');
+  const baseDomain = isDev ? 'visuapp.local:3000' : 'visuapp.com.br';
+  
+  const portalUrl = `${protocol}//portal.${baseDomain}`;
+  const studioUrl = `${protocol}//studio.${baseDomain}`;
 
+  const isStudio = host?.startsWith('studio');
+  
   if (isStudio) {
     if (!session) {
-      return NextResponse.redirect(new URL('https://portal.visuapp.com.br/login', req.url))
+      return NextResponse.redirect(new URL(`${portalUrl}/login`, req.url))
     }
     
     if (session.role !== 'admin') {
-      return NextResponse.redirect(new URL('https://portal.visuapp.com.br/dashboard', req.url))
+      return NextResponse.redirect(new URL(`${portalUrl}/dashboard`, req.url))
     }
 
     if (path === '/') {
@@ -38,12 +45,20 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  if (!session && (path.startsWith('/admin') || path.startsWith('/dashboard'))) {
-    return NextResponse.redirect(new URL('/login', req.url))
+  if (path.startsWith('/admin')) {
+      if (!session) {
+          return NextResponse.redirect(new URL('/login', req.url));
+      }
+
+      if (session.role === 'admin') {
+          return NextResponse.next();
+      } else {
+          return NextResponse.redirect(new URL('/dashboard', req.url));
+      }
   }
 
-  if (session?.role !== 'admin' && path.startsWith('/admin')) {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+  if (path.startsWith('/dashboard') && !session) {
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 
   return NextResponse.next()

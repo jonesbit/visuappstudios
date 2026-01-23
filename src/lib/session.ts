@@ -6,11 +6,13 @@ export async function createSession(userId: string, role: string) {
   const cookieStore = await cookies()
   const now = Date.now()
   const expiresAt = now + SESSION_DURATION
-  const domain = '.visuapp.com.br';
+  
+  const isDev = process.env.NODE_ENV === 'development';
+  const domain = isDev ? '.visuapp.local' : '.visuapp.com.br';
 
   cookieStore.set('session', JSON.stringify({ userId, role, expiresAt }), {
     httpOnly: true,
-    secure: true,
+    secure: !isDev,
     sameSite: 'lax',
     path: '/',
     domain: domain
@@ -19,7 +21,8 @@ export async function createSession(userId: string, role: string) {
 
 export async function deleteSession() {
   const cookieStore = await cookies()
-  const domain = '.visuapp.com.br';
+  const isDev = process.env.NODE_ENV === 'development';
+  const domain = isDev ? '.visuapp.local' : '.visuapp.com.br';
 
   cookieStore.delete('session')
   cookieStore.set('session', '', {
