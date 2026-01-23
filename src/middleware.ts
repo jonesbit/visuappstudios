@@ -1,14 +1,22 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { getSession } from './lib/session'
 
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
   const host = req.headers.get('host')
-  const session = await getSession()
+  const sessionCookie = req.cookies.get('session')?.value
+  
+  let session = null
+  if (sessionCookie) {
+    try {
+      session = JSON.parse(sessionCookie)
+    } catch (e) {
+      session = null
+    }
+  }
 
-  const isPortal = host?.startsWith('portal')
   const isStudio = host?.startsWith('studio')
+  const isPortal = host?.startsWith('portal')
   const isLocalhost = host?.includes('localhost')
 
   if (isStudio) {
@@ -28,6 +36,13 @@ export async function middleware(req: NextRequest) {
   }
 
   if (path === '/login') {
+    if (session) {
+        if (session.role === 'admin') {
+             return NextResponse.redirect(new URL('/admin/studio', req.url))
+        }
+        return NextResponse.redirect(new URL('/dashboard', req.url))
+    }
+
     if (!isPortal && !isLocalhost) {
        return NextResponse.redirect(new URL('https://portal.visuapp.com.br/login'))
     }

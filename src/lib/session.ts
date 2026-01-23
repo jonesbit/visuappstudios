@@ -28,10 +28,8 @@ export async function createSession(userId: string, role: string) {
   const now = Date.now()
   const expiresAt = now + SESSION_DURATION
   
-  // Lógica: Se NÃO for localhost, força o domínio .visuapp.com.br
-  // Isso garante que funcione em Production e Preview da Vercel
-  const isLocalhost = process.env.NODE_ENV === 'development'; 
-  const domain = isLocalhost ? undefined : '.visuapp.com.br';
+  const isLocalhost = process.env.NODE_ENV === 'development'
+  const domain = isLocalhost ? undefined : '.visuapp.com.br'
 
   cookieStore.set('session', JSON.stringify({ userId, role, expiresAt }), {
     httpOnly: true,
@@ -44,13 +42,10 @@ export async function createSession(userId: string, role: string) {
 
 export async function deleteSession() {
   const cookieStore = await cookies()
-  
-  const isLocalhost = process.env.NODE_ENV === 'development'; 
-  const domain = isLocalhost ? undefined : '.visuapp.com.br';
+  const isLocalhost = process.env.NODE_ENV === 'development'
+  const domain = isLocalhost ? undefined : '.visuapp.com.br'
 
-  // Tenta deletar nos dois escopos para garantir
   cookieStore.delete('session')
-  
   cookieStore.set('session', '', {
       expires: new Date(0),
       path: '/',
