@@ -36,15 +36,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
-  if (path === '/login') {
-    if (session) {
-        if (session.role === 'admin') {
-             return NextResponse.redirect(new URL('/admin', req.url))
-        }
-        return NextResponse.redirect(new URL('/dashboard', req.url))
-    }
-  }
-
   if (path.startsWith('/admin')) {
       if (!session) {
           return NextResponse.redirect(new URL('/login', req.url));
