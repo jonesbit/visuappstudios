@@ -42,7 +42,6 @@ export default function PortalAdmin() {
         return () => unsubscribe();
     }, []);
 
-    // --- LÓGICA DO TIMER INTELIGENTE ADMIN ---
     useEffect(() => {
         if (!user || !user.metadata?.lastSignInTime) return;
 
@@ -54,11 +53,9 @@ export default function PortalAdmin() {
             try {
                 const storedData = JSON.parse(localStorage.getItem(storageKey) || 'null');
                 
-                // Se existe um timer salvo e ele pertence a ESTA sessão de login
                 if (storedData && storedData.loginTime === serverLoginTime) {
                     expirationTime = storedData.expirationTime;
                 } else {
-                    // Se é um login novo ou não tem nada salvo, define Agora + 1h
                     expirationTime = Date.now() + (60 * 60 * 1000);
                     localStorage.setItem(storageKey, JSON.stringify({
                         loginTime: serverLoginTime,
@@ -167,7 +164,7 @@ export default function PortalAdmin() {
                 <nav className="flex-1 py-6 space-y-1 overflow-y-auto custom-scroll">
                     
                     <div className="px-6 mb-6">
-                        <a href="https://studio.visuapp.com.br" target="_blank" className="btn-studio group block w-full text-white rounded-xl p-4 shadow-lg hover:shadow-indigo-500/50 transition-all hover:-translate-y-1 relative overflow-hidden">
+                        <a href="https://studio.visuapp.com.br" className="btn-studio group block w-full text-white rounded-xl p-4 shadow-lg hover:shadow-indigo-500/50 transition-all hover:-translate-y-1 relative overflow-hidden">
                             <div className="relative z-10 flex items-center justify-between">
                                 <div>
                                     <p className="font-bold text-sm">VisuLab Studio</p>
@@ -279,7 +276,7 @@ export default function PortalAdmin() {
                                             <h2 className="text-xl md:text-2xl font-bold text-visu-black mb-2">Área de Criação & Desenvolvimento</h2>
                                             <p className="text-gray-500 max-w-xl text-xs md:text-sm">Acesse o novo VisuLab Studio para criar sites, extrair templates de referências e consultar a documentação técnica.</p>
                                             <div className="mt-6 flex gap-3">
-                                                <a href="#" className="bg-visu-black text-white px-5 md:px-6 py-2.5 rounded-lg text-xs md:text-sm font-bold hover:bg-visu-primary transition-colors shadow-lg shadow-indigo-500/20 flex items-center gap-2">
+                                                <a href="https://studio.visuapp.com.br" className="bg-visu-black text-white px-5 md:px-6 py-2.5 rounded-lg text-xs md:text-sm font-bold hover:bg-visu-primary transition-colors shadow-lg shadow-indigo-500/20 flex items-center gap-2">
                                                     <i className="fas fa-rocket"></i> Acessar Studio
                                                 </a>
                                             </div>
