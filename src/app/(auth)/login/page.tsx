@@ -63,7 +63,6 @@ export default function Login() {
                 setLoading(false);
             }
         } else {
-            // Lógica de Reset de Senha
             if (!email) {
                 setError('Digite seu email para redefinir a senha.');
                 setLoading(false);

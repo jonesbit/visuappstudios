@@ -8,16 +8,10 @@ export async function middleware(req: NextRequest) {
   
   let session = null
   if (sessionCookie) {
-    try {
-      session = JSON.parse(sessionCookie)
-    } catch (e) {
-      session = null
-    }
+    try { session = JSON.parse(sessionCookie) } catch {}
   }
 
   const isStudio = host?.startsWith('studio')
-  const isPortal = host?.startsWith('portal')
-  const isLocalhost = host?.includes('localhost')
 
   if (isStudio) {
     if (!session) {
@@ -38,18 +32,10 @@ export async function middleware(req: NextRequest) {
   if (path === '/login') {
     if (session) {
         if (session.role === 'admin') {
-             return NextResponse.redirect(new URL('/admin/studio', req.url))
+             return NextResponse.redirect(new URL('/admin', req.url))
         }
         return NextResponse.redirect(new URL('/dashboard', req.url))
     }
-
-    if (!isPortal && !isLocalhost) {
-       return NextResponse.redirect(new URL('https://portal.visuapp.com.br/login'))
-    }
-  }
-
-  if (isPortal && path === '/') {
-    return NextResponse.redirect(new URL('/login', req.url))
   }
 
   if (!session && (path.startsWith('/admin') || path.startsWith('/dashboard'))) {
