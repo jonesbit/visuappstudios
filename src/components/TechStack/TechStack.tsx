@@ -28,11 +28,6 @@ export default function TechStack() {
                     </div>
 
                     <div className={`${styles.techIconGroup} group`}>
-                        <i className="fab fa-vuejs text-4xl text-green-500" title="Vue.js"></i>
-                        <span className={`${styles.techLabel} text-xs font-semibold text-gray-500`}>Vue.js</span>
-                    </div>
-
-                    <div className={`${styles.techIconGroup} group`}>
                         <i className="fab fa-react text-4xl text-blue-400" title="Next.js"></i>
                         <span className={`${styles.techLabel} text-xs font-semibold text-gray-500`}>Next.js</span>
                     </div>
@@ -45,11 +40,6 @@ export default function TechStack() {
                     <div className={`${styles.techIconGroup} group`}>
                         <i className="fas fa-database text-4xl text-orange-500" title="MySQL"></i>
                         <span className={`${styles.techLabel} text-xs font-semibold text-gray-500`}>MySQL</span>
-                    </div>
-
-                    <div className={`${styles.techIconGroup} group`}>
-                        <i className="fas fa-database text-4xl text-blue-800" title="PostgreSQL"></i>
-                        <span className={`${styles.techLabel} text-xs font-semibold text-gray-500`}>PostgreSQL</span>
                     </div>
 
                     <div className={`${styles.techIconGroup} group`}>

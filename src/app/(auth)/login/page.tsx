@@ -144,7 +144,7 @@ export default function Login() {
                             </div>
                             
                             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                                {view === 'login' ? 'Bem-vindo de volta.' : 'Recuperação de Conta'}
+                                {view === 'login' ? 'Bem-vindo de volta' : 'Recuperação de Conta'}
                             </h2>
                             <p className="text-sm md:text-base text-gray-400 leading-relaxed">
                                 {view === 'login' 
@@ -152,27 +152,10 @@ export default function Login() {
                                     : 'Insira seu email cadastrado para receber as instruções de recuperação de senha.'}
                             </p>
                         </div>
-
-                        <div className="relative z-10 mt-8 md:mt-12 hidden md:block">
-                            <div className="bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10 flex items-center gap-4 animate-float">
-                                <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
-                                    <i className="fas fa-shield-alt"></i>
-                                </div>
-                                <div>
-                                    <p className="text-white text-sm font-bold">Ambiente Seguro</p>
-                                    <p className="text-xs text-gray-400">Criptografia de ponta a ponta.</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div className="md:w-1/2 p-8 md:p-12 bg-white flex flex-col justify-center relative">
-                        {view === 'login' && (
-                            <div className="mb-6 md:absolute md:top-6 md:right-6 md:mb-0 inline-flex self-start md:self-auto items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-bold uppercase tracking-wider border border-red-100">
-                                <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
-                                Acesso Restrito
-                            </div>
-                        )}
+
 
                         <div className="mb-8">
                             <h3 className="text-2xl md:text-3xl font-bold text-visu-black mb-2">

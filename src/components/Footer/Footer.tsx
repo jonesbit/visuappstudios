@@ -39,8 +39,6 @@ export default function Footer() {
                         <ul className="space-y-4 text-sm">
                             <li><Link href="/landing-page" className="hover:text-visu-primary transition-colors">Landing Page</Link></li>
                             <li><Link href="/sites-institucionais" className="hover:text-visu-primary transition-colors">Site Institucional</Link></li>
-                            <li><Link href="/design-grafico" className="hover:text-visu-primary transition-colors">Design Gráfico</Link></li>
-                            <li className="text-gray-600 cursor-default select-none" title="Indisponível no momento">Sistema SaaS</li>
                         </ul>
                     </div>
 
